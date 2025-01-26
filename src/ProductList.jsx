@@ -268,6 +268,13 @@ function ProductList() {
     }));
   };
 
+  const handleRemoveFromCart = (product) => {
+  setAddedToCart((prevState) => ({
+    ...prevState,
+    [product.name]: false, // Mark item as removed from cart
+  }));
+};
+
 
     return (
         <div>
@@ -304,9 +311,10 @@ function ProductList() {
                                 <p>{plant.description}</p>
                                 <p className='product-price'>{plant.cost}</p>
                                 <button
-                                    className='product-button'
-                                    onClick={() => handleAddedToCart(plant)}>
-                                        Add to Cart
+                                    className={`product-button ${addedToCart[plant.name] ? 'added-to-cart' : ''}`}
+                                    onClick={() => handleAddedToCart(plant)}
+                                    disabled={addedToCart[plant.name]}>
+                                        {addedToCart[plant.name] ? 'Added to Cart' : 'Add to Cart'}
                                 </button>
                             </div>
                         ))}
@@ -315,7 +323,7 @@ function ProductList() {
             ))}
         </div>
  ) :  (
-    <CartItem onContinueShopping={handleContinueShopping}/>
+    <CartItem onContinueShopping={handleContinueShopping} onRemoveFromCart={handleRemoveFromCart}/>
 )}
     </div>
     );
